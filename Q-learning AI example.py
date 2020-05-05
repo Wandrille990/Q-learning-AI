@@ -273,7 +273,7 @@ if __name__ == '__main__':
     env = EnvGrid()
     spt, sot = env.reset()
 
-    rep = 5000  # nombre de parties d'entraînement (10 000 conseillé même plus long)
+    rep = 5000  # nombre de parties d'entraînement (10 000 conseillé même si plus long)
     epsilon = 1  # probabilité que l'agent prenne une action aléatoirement
 
     Q = [  # 100 listes de 4 listes de 5 valeurs : 100 positions, 4 orientations, 5 actions
