@@ -8,5 +8,5 @@ Ceci en utilisant l'apprentissage par renforcement.
 Au départ nous étions très enthousiasme et nous avons créé un environnement très complexe avec Pygame sur un écran de 1280x720 et une voiture pouvant prendre un très grand nombre d'états possible.
 Mais ceci aurait nécessité à notre IA un réseau de neuronne, et face à la difficulté de la tache nous appréhendions de manquer de temps, nous nous sommes donc concentré sur le Q-learning seul et une grille de 10x10.
 
-Notre objetif nous semble atteint, je poste donc le programme ici. Il est encore possible de l'améliorer, nous verrons si nous le ferrons.
-Les détails de son fonctionnement sont au début de code.
+Notre objetif nous semble atteint, je poste donc le programme ici. Il est encore possible de l'améliorer, nous verrons si nous le ferons.
+Les détails de son fonctionnement sont au début du code.
