@@ -390,8 +390,8 @@ if __name__ == '__main__':
             print("reset")
             env.show()  # méthode show definie ligne 237
 
-        epsilon = max(epsilon * (1 - 1 / (rep / 5)), 0.01)
-        # Décroissant logarithmiquement, max score sur les 100 dernières parties
+        epsilon = max(epsilon * (1 - 1 / (rep / 5)), 0.01)  # Décroissant logarithmiquement
+        # epsilon = max(epsilon - (1 / (rep/1.1)), 0.01)  # Décroissant linéairement
 
         while not env.is_finished():  # méthode is_finished definie ligne 256
             at = take_action(spt, sot, Q, epsilon)  # fonction take_action definie ligne 260
