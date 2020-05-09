@@ -188,7 +188,7 @@ class EnvGrid(object):
                 self.grid[1][5] = 2  # Sinon la case reste un 2
                 self.grid[2][5] = 2
                 checkpoint_1 = 0    # La valeur du checkpoint se réinitialise
-            if checkpoint_1 >= 19:  # Si le chekpoint_1 dépasse 19, alors il se réinitialise à 0
+            if checkpoint_1 >= 18:  # Si le chekpoint_1 dépasse 18, alors il se réinitialise à 0
                 checkpoint_1 = 0
                 bonus.remove(5)     # Puis on enlève la valeur 5 de la liste pour que le bonus puisse réappaître
 
@@ -200,7 +200,7 @@ class EnvGrid(object):
                 self.grid[4][8] = 2
                 checkpoint_2 = 0
 
-            if checkpoint_2 >= 19:
+            if checkpoint_2 >= 18:
                 checkpoint_2 = 0
                 if 7 in bonus:
                     bonus.remove(7)
@@ -215,7 +215,7 @@ class EnvGrid(object):
                 self.grid[8][4] = 2
                 checkpoint_3 = 0
 
-            if checkpoint_3 >= 19:
+            if checkpoint_3 >= 18:
                 checkpoint_3 = 0
                 bonus.remove(4)
 
@@ -227,7 +227,7 @@ class EnvGrid(object):
                 self.grid[5][2] = 2
                 checkpoint_4 = 0
 
-            if checkpoint_4 >= 19:
+            if checkpoint_4 >= 18:
                 checkpoint_4 = 0
                 if 2 in bonus:
                     bonus.remove(2)
@@ -266,14 +266,13 @@ def take_action(spt, sot, Q, eps):
             action = randint(0, 4)
         else:
             action = np.argmax(Q[spt][sot])
-    return action
+    return action  # return at
 
 
 if __name__ == '__main__':
     env = EnvGrid()
-    spt, sot = env.reset()
 
-    rep = 5000  # nombre de parties d'entraînement (10 000 conseillé même si plus long)
+    rep = 10000  # nombre de parties d'entraînement (10 000 conseillé même si plus long)
     epsilon = 1  # probabilité que l'agent prenne une action aléatoirement
 
     Q = [  # 100 listes de 4 listes de 5 valeurs : 100 positions, 4 orientations, 5 actions
@@ -383,12 +382,16 @@ if __name__ == '__main__':
     for _ in range(rep):
         spt, sot = env.reset()  # Reset the game, méthode reset definie ligne 85
 
-        print("{} sur {}".format(_ + 1, rep))  # avancement de l'entraînement
-        print("{} = {}".format("Epsilon", epsilon))  # évolution d'epsilon
+        if (_+1) % 100 == 0 or _ > rep-1:
+            print("{} sur {}".format(_ + 1, rep))  # avancement de l'entraînement
+            print("{} = {}".format("Epsilon", epsilon))  # évolution d'epsilon
 
-        if _ > rep-3:  # affiche les 2 dernières parties
+        if _ > rep-1:  # affiche la dernières parties
             print("reset")
             env.show()  # méthode show definie ligne 237
+
+        epsilon = max(epsilon * (1 - 1 / (rep / 5)), 0.01)
+        # Décroissant logarithmiquement, max score sur les 100 dernières parties
 
         while not env.is_finished():  # méthode is_finished definie ligne 256
             at = take_action(spt, sot, Q, epsilon)  # fonction take_action definie ligne 260
@@ -397,30 +400,22 @@ if __name__ == '__main__':
             # print("s", sptp1, sotp1)
             # print("r", r, "\n")
 
-            # Update Q function
+            # Update Q function, Q-Table ligne 279
             atp1 = take_action(sptp1, sotp1, Q, 0.0)  # fonction take_action definie ligne 260
             Q[spt][sot][at] = Q[spt][sot][at] + 0.1*(r + 0.9*Q[sptp1][sotp1][atp1] - Q[spt][sot][at])
             # 0.1 : learning rate  /  0.9 : gamma (moins d'importance aux actions lointaines)
-            # Q-Table ligne 279
 
             env.reward()  # méthode reward definie ligne 168
+            if _ > rep - 101:
+                score += r
+                if _ > rep - 1:  # affiche la dernières parties
+                    env.show()  # méthode show definie ligne 237
+                    # epsilon = 0  # l'agent ne meurt jamais à la dernière partie s'il ne fait aucune action aléatoire
 
             spt = sptp1  # mise à jour de l'état
             sot = sotp1
 
-            if _ > rep-3:  # affiche les 2 dernières parties
-                env.show()  # méthode show definie ligne 237
-
-            # epsilon = max(epsilon * 0.99965, 0.01)  # pas trop mal pour 1 000 rep
-            epsilon = max(epsilon * 0.99994, 0.01)  # max score pour 5 000 rep
-            # epsilon = max(epsilon * 0.999965, 0.01)  # max score pour 10 000 rep
-
-            # if _ == rep-1:
-            #     epsilon = 0  # l'agent ne meurt jamais à la dernière partie s'il ne fait aucune action aléatoire
-
-            score += r
-
     for s in range(11, 91):  # les états 1 à 11 et 90 à 100 ne sont jamais atteints
         print(s, Q[s])  # affiche la Q-Table
 
-    print(score/rep)  # score moyen par partie
+    print(score/100)  # score moyen sur les 100 dernières parties
