@@ -382,17 +382,20 @@ if __name__ == '__main__':
     for _ in range(rep):
         spt, sot = env.reset()  # Reset the game, méthode reset definie ligne 85
 
-        if (_+1) % 100 == 0 or _ > rep-1:
+        if (_+1) % 100 == 0 or _ > rep-2:
             print("{} sur {}".format(_ + 1, rep))  # avancement de l'entraînement
             print("{} = {}".format("Epsilon", epsilon))  # évolution d'epsilon
 
-        if _ > rep-1:  # affiche la dernières parties
+        if _ > rep-2:  # affiche la dernières parties
             print("reset")
             env.show()  # méthode show definie ligne 237
 
-        epsilon = max(epsilon * (1 - 1 / (rep / 5)), 0.01)  # Décroissant logarithmiquement
-        # epsilon = max(epsilon - (1 / (rep/1.1)), 0.01)  # Décroissant linéairement
-
+        epsilon = max(epsilon * (1 - 1 / (rep / 5)), 0.01)
+        # Décroissant logarithmiquement, plus lent mais meilleur score
+        # epsilon = max(epsilon - (1 / (rep/1.1)), 0.01)
+        # Décroissant linéairement, plus rapide mais légèrement moins bon score
+        # Rapport score/temps meilleurs avec une décroissance linéaire
+        
         while not env.is_finished():  # méthode is_finished definie ligne 256
             at = take_action(spt, sot, Q, epsilon)  # fonction take_action definie ligne 260
 
@@ -408,7 +411,7 @@ if __name__ == '__main__':
             env.reward()  # méthode reward definie ligne 168
             if _ > rep - 101:
                 score += r
-                if _ > rep - 1:  # affiche la dernières parties
+                if _ > rep - 2:  # affiche la dernières parties
                     env.show()  # méthode show definie ligne 237
                     # epsilon = 0  # l'agent ne meurt jamais à la dernière partie s'il ne fait aucune action aléatoire
 
