@@ -102,25 +102,15 @@ class EnvGrid(object):
 
         if self.actions[action] == 0:
             # print("TURN_LEFT")
-            if self.orient == 2:
-                self.orient = 3
-            elif self.orient == 3:
+            self.orient += 1
+            if self.orient == 4:
                 self.orient = 0
-            elif self.orient == 0:
-                self.orient = 1
-            elif self.orient == 1:
-                self.orient = 2
 
         elif self.actions[action] == 1:
             # print("TURN_RIGHT")
-            if self.orient == 2:
-                self.orient = 1
-            elif self.orient == 1:
-                self.orient = 0
-            elif self.orient == 0:
+            self.orient -= 1
+            if self.orient == -1:
                 self.orient = 3
-            elif self.orient == 3:
-                self.orient = 2
 
         elif self.actions[action] == 2:
             # print("FORWARD_RIGHT")
