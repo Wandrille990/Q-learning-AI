@@ -266,7 +266,7 @@ if __name__ == '__main__':
     epsilon = 1  # probabilité que l'agent prenne une action aléatoirement
 
     Q = [[[0, 0, 0, 0, 0] for i in range(4)] for y in range(101)]
-    # 100 listes de 4 listes de 5 valeurs : 100 positions, 4 orientations, 5 actions
+    # 101 listes de 4 listes de 5 valeurs : 100 positions, 4 orientations, 5 actions
 
     for _ in range(rep):
         spt, sot = env.reset()  # Reset the game, méthode reset definie ligne 85
