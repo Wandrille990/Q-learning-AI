@@ -285,23 +285,23 @@ if __name__ == '__main__':
         # Décroissant linéairement, plus rapide mais légèrement moins bon score
         # Rapport score/temps meilleurs avec une décroissance linéaire
         
-        while not env.is_finished():  # méthode is_finished definie ligne 256
-            at = take_action(spt, sot, Q, epsilon)  # fonction take_action definie ligne 260
+        while not env.is_finished():  # méthode is_finished definie ligne 246
+            at = take_action(spt, sot, Q, epsilon)  # fonction take_action definie ligne 250
 
             sptp1, sotp1, r = env.step(at)  # méthode step definie ligne 97
             # print("s", sptp1, sotp1)
             # print("r", r, "\n")
 
             # Update Q function, Q-Table ligne 268
-            atp1 = take_action(sptp1, sotp1, Q, 0.0)  # fonction take_action definie ligne 260
+            atp1 = take_action(sptp1, sotp1, Q, 0.0)  # fonction take_action definie ligne 250
             Q[spt][sot][at] = Q[spt][sot][at] + 0.1*(r + 0.9*Q[sptp1][sotp1][atp1] - Q[spt][sot][at])
             # 0.1 : learning rate  /  0.9 : gamma (moins d'importance aux actions lointaines)
 
-            env.reward()  # méthode reward definie ligne 168
+            env.reward()  # méthode reward definie ligne 158
             if _ > rep - 101:
                 score += r
                 if _ > rep - 2:  # affiche la dernières parties
-                    env.show()  # méthode show definie ligne 237
+                    env.show()  # méthode show definie ligne 227
                     # epsilon = 0  # l'agent ne meurt jamais à la dernière partie s'il ne fait aucune action aléatoire
 
             spt = sptp1  # mise à jour de l'état
