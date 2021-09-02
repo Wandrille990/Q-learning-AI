@@ -33,11 +33,11 @@ Il est défini comme la somme de valeurs sur lesquelles l'agent est allé, divis
 
 L'environnement est défini dans la méthode __init__ (ligne 58).
 L'exécution des actions est géré par la méthode step (ligne 97).
-La gestion des bonus est effectuée par la méthode reward (ligne 168).
-L'affichage est effectué par la méthode show (ligne 237).
-La prise de décision est faite par la fonction take_action (ligne 260).
-La mémoire (l'expérience accumulé) de l'agent est gérée par une liste qu'on appelle Q-Table (ligne 279).
-La "Q fonction" (ou équation de Bellman) permet à l'agent de mettre à jour sa perception de l'environnement(ligne 402).
+La gestion des bonus est effectuée par la méthode reward (ligne 158).
+L'affichage est effectué par la méthode show (ligne 227).
+La prise de décision est faite par la fonction take_action (ligne 250).
+La mémoire (l'expérience accumulé) de l'agent est gérée par une liste qu'on appelle Q-Table (ligne 268).
+La "Q fonction" (ou équation de Bellman) permet à l'agent de mettre à jour sa perception de l'environnement (ligne 297).
 Plus précisément, elle met à jour l'espérance du score que l'agent peut obtenir en faisant telle action dans tel état.
 Notre Q-Table est un tableau à 3 dimensions défini selon 3 paramètres : La position de l'agent (100 positions), 
 la direction vers laquelle il regarde (4 directions) et les actions qu'il peut effectuer (5 actions).
@@ -292,7 +292,7 @@ if __name__ == '__main__':
             # print("s", sptp1, sotp1)
             # print("r", r, "\n")
 
-            # Update Q function, Q-Table ligne 279
+            # Update Q function, Q-Table ligne 268
             atp1 = take_action(sptp1, sotp1, Q, 0.0)  # fonction take_action definie ligne 260
             Q[spt][sot][at] = Q[spt][sot][at] + 0.1*(r + 0.9*Q[sptp1][sotp1][atp1] - Q[spt][sot][at])
             # 0.1 : learning rate  /  0.9 : gamma (moins d'importance aux actions lointaines)
