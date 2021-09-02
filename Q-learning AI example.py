@@ -298,9 +298,9 @@ if __name__ == '__main__':
             # 0.1 : learning rate  /  0.9 : gamma (moins d'importance aux actions lointaines)
 
             env.reward()  # méthode reward definie ligne 158
-            if _ > rep - 101:
+            if _ > rep - 101: # on regarde le score que les sur 100 dernières parties pour voir les perfomances finales
                 score += r
-                if _ > rep - 2:  # affiche la dernières parties
+                if _ > rep - 2:  # affiche la dernière partie
                     env.show()  # méthode show definie ligne 227
                     # epsilon = 0  # l'agent ne meurt jamais à la dernière partie s'il ne fait aucune action aléatoire
 
